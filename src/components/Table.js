@@ -1,22 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import MyContext from '../context/Context';
 // import data from '../services/data';
 
 function Component() {
   const { data } = useContext(MyContext);
+
+  const [valueInput, setValueInput] = useState('');
   const arrayAPI = data.filter((element) => delete element.residents);
-  console.log(arrayAPI);
+  const req2 = arrayAPI.filter((element) => Object.values(element)[0]
+    .includes(valueInput));
+
   return (
     <div>
       <h1>PROJETO STAR-WARS</h1>
       <label htmlFor="input">
         <input
           type="text"
-          data-testid="input"
+          data-testid="name-filter"
           id="input"
           name="description"
-          // value={ description }
-          // onChange={ this.handleChange }
+          value={ valueInput }
+          onChange={ ({ target }) => setValueInput(target.value) }
         />
       </label>
       <table>
@@ -38,7 +42,7 @@ function Component() {
           </tr>
         </thead>
         <tbody>
-          {data.map((el) => (
+          {req2.map((el) => (
             <tr key={ el.name }>
               <td>{el.name}</td>
               <td>{el.climate}</td>

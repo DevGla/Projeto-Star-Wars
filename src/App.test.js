@@ -39,14 +39,14 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it.only('Realize uma requisição para a API', async () => {
+  it('Realize uma requisição para a API', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(global.fetch).toHaveBeenCalled();
   });
 
-  it.only('Preencha a tabela com os dados retornados', async () => {
+  it('Preencha a tabela com os dados retornados', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -74,7 +74,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     }
   });
 
-  it.only('Verifique se a tabela tem 13 colunas', async () => {
+  it('Verifique se a tabela tem 13 colunas', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -82,7 +82,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     expect(await screen.findAllByRole(COLUMN_ROLE_SELECTOR)).toHaveLength(COLUMNS_TOTAL);
   });
 
-  it.only('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
+  it('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -98,14 +98,14 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   const ROWS_WITH_LETTER_O = 8;
   const ROWS_WITH_LETTERS_OO = 3;
 
-  it('Renderize o campo de texto para o filtro de nomes', async () => {
+  it.only('Renderize o campo de texto para o filtro de nomes', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(await screen.findByTestId(INPUT_FILTER_NAME_SELECTOR)).toBeInTheDocument();
   });
 
-  it('Filtre os planetas que possuem a letra "o" no nome', async () => {
+  it.only('Filtre os planetas que possuem a letra "o" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -119,7 +119,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it('Filtre planetas que possuem a letra "oo" no nome', async () => {
+  it.only('Filtre planetas que possuem a letra "oo" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -133,7 +133,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it('Faça vários filtros em sequência', async () => {
+  it.only('Faça vários filtros em sequência', async () => {
     await act(async () => {
       render(<App />);
     });
