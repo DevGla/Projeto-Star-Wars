@@ -4,7 +4,6 @@ import MyContext from './Context';
 import dataAPI from '../services/dataAPI';
 
 function PlanetProvider({ children }) {
-
   const [data, setDataAPI] = useState([]);
 
   const request = async () => {
@@ -23,8 +22,12 @@ function PlanetProvider({ children }) {
   return <MyContext.Provider value={ { data } }>{children}</MyContext.Provider>;
 }
 
-PlanetProvider.prototype = {
-  children: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+PlanetProvider.defaultProps = {
+  children: '',
+};
+
+PlanetProvider.propTypes = {
+  children: PropTypes.string,
 };
 
 export default PlanetProvider;
