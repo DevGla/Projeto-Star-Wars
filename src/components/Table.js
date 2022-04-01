@@ -10,10 +10,9 @@ function Component() {
     changeFilterByName,
     changeFilterByNumber,
     changeSelect } = useContext(MyContext);
-  console.log(planets);
 
-  const [inputColumn, setinputColumn] = useState('');
-  const [inputCompasion, setinputCompasion] = useState('');
+  const [inputColumn, setinputColumn] = useState('population');
+  const [inputCompasion, setinputCompasion] = useState('maior que');
   const [inputValues, setInputValues] = useState('');
 
   const request = async () => {
@@ -28,8 +27,6 @@ function Component() {
 
   let filterAPI = planets.filter((planeta) => planeta.name.includes(filterByName));
   if (filterByNumber.length > 0) {
-    console.log(filterByNumber);
-    console.log(filterAPI);
     filterByNumber.forEach((element) => {
       console.log(element);
       switch (element.inputCompasion) {
@@ -126,7 +123,7 @@ function Component() {
             data-testid="value-filter"
             id="description-input"
             name="description"
-            value={ inputValues }
+            value={ inputValues || 0 }
             onChange={ ({ target }) => setInputValues(target.value) }
           />
         </label>
