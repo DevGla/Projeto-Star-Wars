@@ -1,14 +1,62 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import MyContext from '../context/Context';
-// import data from '../services/data';
+import dataAPI from '../services/dataAPI';
 
 function Component() {
-  const { data } = useContext(MyContext);
+  const { planets, filterByName,
+    filterByNumber,
+    select,
+    changePlanets,
+    changeFilterByName,
+    changeFilterByNumber,
+    changeSelect } = useContext(MyContext);
+  console.log(planets);
 
-  const [valueInput, setValueInput] = useState('');
-  const arrayAPI = data.filter((element) => delete element.residents);
-  const req2 = arrayAPI.filter((element) => Object.values(element)[0]
-    .includes(valueInput));
+  const [inputColumn, setinputColumn] = useState('');
+  const [inputCompasion, setinputCompasion] = useState('');
+  const [inputValues, setInputValues] = useState('');
+
+  const request = async () => {
+    const resultAPI = await dataAPI();
+    const arrayAPI = await resultAPI.filter((element) => delete element.residents);
+    changePlanets(arrayAPI);
+  };
+
+  useEffect(() => {
+    request();
+  }, []);
+
+  let filterAPI = planets.filter((planeta) => planeta.name.includes(filterByName));
+  if (filterByNumber.length > 0) {
+    console.log(filterByNumber);
+    console.log(filterAPI);
+    filterByNumber.forEach((element) => {
+      console.log(element);
+      switch (element.inputCompasion) {
+      case 'maior que':
+        filterAPI = filterAPI
+          .filter((e) => Number(e[element.inputColumn]) > Number(element.inputValues));
+        break;
+      case 'menor que':
+        filterAPI = filterAPI
+          .filter((e) => Number(e[element.inputColumn]) < Number(element.inputValues));
+        break;
+      case 'igual a':
+        filterAPI = filterAPI
+          .filter((e) => e[element.inputColumn] === element.inputValues);
+        break;
+      default:
+        break;
+      }
+    });
+  }
+
+  const handleClick = () => {
+    changeFilterByNumber({ inputColumn, inputCompasion, inputValues });
+    const array = select.filter((element) => element !== inputColumn);
+    changeSelect(array);
+    // setinputColumn(array[0]);
+  };
 
   return (
     <div>
@@ -19,8 +67,8 @@ function Component() {
           data-testid="name-filter"
           id="input"
           name="description"
-          value={ valueInput }
-          onChange={ ({ target }) => setValueInput(target.value) }
+          value={ filterByName }
+          onChange={ ({ target }) => changeFilterByName(target.value) }
         />
       </label>
       <table>
@@ -41,8 +89,58 @@ function Component() {
             <th>terrain</th>
           </tr>
         </thead>
+        <label htmlFor="method-input">
+          Column
+          <select
+            name="method"
+            id="method-input"
+            data-testid="column-filter"
+            onChange={ ({ target }) => setinputColumn(target.value) }
+            value={ inputColumn }
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
+        <label htmlFor="method-input">
+          Comparison
+          <select
+            name="method"
+            id="method-input"
+            data-testid="comparison-filter"
+            onChange={ ({ target }) => setinputCompasion(target.value) }
+            value={ inputCompasion }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+        </label>
+        <label htmlFor="description-input">
+          filtro numeros
+          <input
+            type="number"
+            data-testid="value-filter"
+            id="description-input"
+            name="description"
+            value={ inputValues }
+            onChange={ ({ target }) => setInputValues(target.value) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="button-filter"
+          name="input-button"
+          id="input-button"
+          onClick={ handleClick }
+        >
+          filtrar
+        </button>
         <tbody>
-          {req2.map((el) => (
+          {planets.length > 0 && filterAPI.map((el) => (
             <tr key={ el.name }>
               <td>{el.name}</td>
               <td>{el.climate}</td>
