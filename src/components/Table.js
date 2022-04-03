@@ -28,7 +28,6 @@ function Component() {
   let filterAPI = planets.filter((planeta) => planeta.name.includes(filterByName));
   if (filterByNumber.length > 0) {
     filterByNumber.forEach((element) => {
-      console.log(element);
       switch (element.inputCompasion) {
       case 'maior que':
         filterAPI = filterAPI
@@ -52,7 +51,8 @@ function Component() {
     changeFilterByNumber({ inputColumn, inputCompasion, inputValues });
     const array = select.filter((element) => element !== inputColumn);
     changeSelect(array);
-    // setinputColumn(array[0]);
+    setinputColumn(array[0]);
+    console.log(array);
   };
 
   return (
@@ -95,11 +95,9 @@ function Component() {
             onChange={ ({ target }) => setinputColumn(target.value) }
             value={ inputColumn }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {select.map((element) => (
+              <option value={ element } key={ element }>{element}</option>
+            ))}
           </select>
         </label>
         <label htmlFor="method-input">

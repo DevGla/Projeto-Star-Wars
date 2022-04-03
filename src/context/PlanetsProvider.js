@@ -14,7 +14,6 @@ function PlanetProvider({ children }) {
       value: '100000',
     },
   ]);
-  console.log(filterByNumber);
 
   const changePlanets = (array) => {
     setPlanets(array);
