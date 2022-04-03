@@ -346,7 +346,7 @@ describe('5 - Não utilize filtros repetidos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it.only('Filtre por população e o remove das opções', async () => {
+  it('Filtre por população e o remove das opções', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -390,7 +390,7 @@ describe('6 - Apague um filtro de valor numérico ao clicar no ícone de X de um
     fireEvent.click(filters[index].querySelector('button'));
   };
 
-  it('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifique se os valores da tabela voltaram ao original', async () => {
+  it.only('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifique se os valores da tabela voltaram ao original', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -407,7 +407,7 @@ describe('6 - Apague um filtro de valor numérico ao clicar no ícone de X de um
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(ROWS_TOTAL);
   });
 
-  it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', async () => {
+  it.only('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -434,7 +434,7 @@ describe('6 - Apague um filtro de valor numérico ao clicar no ícone de X de um
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(ROWS_TOTAL);
   });
 
-  it('Adicione três filtros e clique no botão Remover Filtragens, todos os filtros deverão ser removidos', async () => {
+  it.only('Adicione três filtros e clique no botão Remover Filtragens, todos os filtros deverão ser removidos', async () => {
     await act(async () => {
       render(<App />);
     });
