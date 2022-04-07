@@ -39,14 +39,14 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it('Realize uma requisição para a API', async () => {
+  it.only('Realize uma requisição para a API', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(global.fetch).toHaveBeenCalled();
   });
 
-  it('Preencha a tabela com os dados retornados', async () => {
+  it.only('Preencha a tabela com os dados retornados', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -74,7 +74,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     }
   });
 
-  it('Verifique se a tabela tem 13 colunas', async () => {
+  it.only('Verifique se a tabela tem 13 colunas', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -82,7 +82,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     expect(await screen.findAllByRole(COLUMN_ROLE_SELECTOR)).toHaveLength(COLUMNS_TOTAL);
   });
 
-  it('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
+  it.only('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -98,14 +98,14 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   const ROWS_WITH_LETTER_O = 8;
   const ROWS_WITH_LETTERS_OO = 3;
 
-  it('Renderize o campo de texto para o filtro de nomes', async () => {
+  it.only('Renderize o campo de texto para o filtro de nomes', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(await screen.findByTestId(INPUT_FILTER_NAME_SELECTOR)).toBeInTheDocument();
   });
 
-  it('Filtre os planetas que possuem a letra "o" no nome', async () => {
+  it.only('Filtre os planetas que possuem a letra "o" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -119,7 +119,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it('Filtre planetas que possuem a letra "oo" no nome', async () => {
+  it.only('Filtre planetas que possuem a letra "oo" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -133,7 +133,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it('Faça vários filtros em sequência', async () => {
+  it.only('Faça vários filtros em sequência', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -173,7 +173,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it('Renderize o filtro de coluna', async () => {
+  it.only('Renderize o filtro de coluna', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -188,7 +188,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(foundColumnFilter).toEqual(expect.arrayContaining(columns));
   });
 
-  it('Renderize o filtro de comparação', async () => {
+  it.only('Renderize o filtro de comparação', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -203,7 +203,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(foundComparisonFilter).toEqual(expect.arrayContaining(columns));
   });
 
-  it('Renderize o campo para o valor do filtro', async () => {
+  it.only('Renderize o campo para o valor do filtro', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -213,7 +213,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(value).toHaveAttribute('type', 'number');
   });
 
-  it('Renderize o botão para executar a filtragem', async () => {
+  it.only('Renderize o botão para executar a filtragem', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -221,7 +221,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findByTestId(BUTTON_FILTER_SELECTOR)).toHaveProperty('nodeName', 'BUTTON');
   });
 
-  it('Verifica valores iniciais de cada campo', async () => {
+  it.only('Verifica valores iniciais de cada campo', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -238,7 +238,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(value).toHaveValue(0);
   });
 
-  it('Filtre utilizando apenas o botão de filtrar', async () => {
+  it.only('Filtre utilizando apenas o botão de filtrar', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -250,7 +250,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(DEFAULT_FILTERED_ROWS);
   });
 
-  it('Filtre utilizando a comparação "menor que"', async () => {
+  it.only('Filtre utilizando a comparação "menor que"', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -265,7 +265,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(LESS_FILTERED_ROWS);
   });
 
-  it('Filtre utilizando a comparação "maior que"', async () => {
+  it.only('Filtre utilizando a comparação "maior que"', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -280,7 +280,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(GREATER_FILTERED_ROWS);
   });
 
-  it('Filtre utilizando a comparação "igual a"', async () => {
+  it.only('Filtre utilizando a comparação "igual a"', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -297,7 +297,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
 });
 
 describe('4 - Implemente múltiplos filtros numéricos', () => {
-  it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas', async () => {
+  it.only('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -316,7 +316,7 @@ describe('4 - Implemente múltiplos filtros numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(DOUBLE_NUMERIC_FILTERED_ROWS);
   });
 
-  it('Adicione três filtros e verifique se a tabela foi atualizada com as informações filtradas', async () => {
+  it.only('Adicione três filtros e verifique se a tabela foi atualizada com as informações filtradas', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -346,7 +346,7 @@ describe('5 - Não utilize filtros repetidos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it('Filtre por população e o remove das opções', async () => {
+  it.only('Filtre por população e o remove das opções', async () => {
     await act(async () => {
       render(<App />);
     });

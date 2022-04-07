@@ -7,13 +7,8 @@ function PlanetProvider({ children }) {
   const [filterByName, setFilterByName] = useState('');
   const [select, setSelect] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-  const [filterByNumber, setFilterByNumber] = useState([
-    {
-      column: 'population',
-      comparison: 'maior que',
-      value: '100000',
-    },
-  ]);
+  const [filterByNumber, setFilterByNumber] = useState([]);
+  console.log(filterByNumber);
 
   const changePlanets = (array) => {
     setPlanets(array);
@@ -27,6 +22,9 @@ function PlanetProvider({ children }) {
   const changeSelect = (array) => {
     setSelect(array);
   };
+  const changeDelete = (array) => {
+    setFilterByNumber(array);
+  };
 
   const state = {
     planets,
@@ -36,6 +34,7 @@ function PlanetProvider({ children }) {
     setFilterByName,
     filterByNumber,
     setFilterByNumber,
+    changeDelete,
     changePlanets,
     changeFilterByName,
     changeFilterByNumber,

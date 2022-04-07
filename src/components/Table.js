@@ -9,11 +9,15 @@ function Component() {
     changePlanets,
     changeFilterByName,
     changeFilterByNumber,
+    changeDelete,
     changeSelect } = useContext(MyContext);
+  console.log(filterByNumber);
 
   const [inputColumn, setinputColumn] = useState('population');
+
   const [inputCompasion, setinputCompasion] = useState('maior que');
-  const [inputValues, setInputValues] = useState('');
+
+  const [inputValues, setInputValues] = useState('0');
 
   const request = async () => {
     const resultAPI = await dataAPI();
@@ -26,6 +30,7 @@ function Component() {
   }, []);
 
   let filterAPI = planets.filter((planeta) => planeta.name.includes(filterByName));
+
   if (filterByNumber.length > 0) {
     filterByNumber.forEach((element) => {
       switch (element.inputCompasion) {
@@ -51,8 +56,15 @@ function Component() {
     changeFilterByNumber({ inputColumn, inputCompasion, inputValues });
     const array = select.filter((element) => element !== inputColumn);
     changeSelect(array);
-    setinputColumn(array[0]);
-    console.log(array);
+  };
+
+  const removeButtonFilter = (ele) => {
+    if (ele.target.id) {
+      const newArray = filterByNumber.filter((e) => e.inputColumn !== ele.target.id);
+      changeDelete(newArray);
+    } else {
+      changeDelete([]);
+    }
   };
 
   return (
@@ -134,6 +146,21 @@ function Component() {
         >
           filtrar
         </button>
+        <button
+          type="button"
+          data-testid="button-remove-filters"
+          onClick={ removeButtonFilter }
+        >
+          Remover Filtros
+        </button>
+        {(filterByNumber.map((element) => (
+          <div key={ element.inputColumn } data-testid="filter">
+            {`${element.inputColumn} ${element.inputCompasion} ${element.inputValues}`}
+            <button type="button" id={ element.inputColumn } onClick={ removeButtonFilter }>
+              X
+            </button>
+          </div>)))}
+
         <tbody>
           {planets.length > 0 && filterAPI.map((el) => (
             <tr key={ el.name }>
