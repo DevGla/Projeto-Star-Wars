@@ -156,7 +156,11 @@ function Component() {
         {(filterByNumber.map((element) => (
           <div key={ element.inputColumn } data-testid="filter">
             {`${element.inputColumn} ${element.inputCompasion} ${element.inputValues}`}
-            <button type="button" id={ element.inputColumn } onClick={ removeButtonFilter }>
+            <button
+              type="button"
+              id={ element.inputColumn }
+              onClick={ removeButtonFilter }
+            >
               X
             </button>
           </div>)))}
