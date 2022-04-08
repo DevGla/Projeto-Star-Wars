@@ -1,27 +1,33 @@
 import React, { useContext, useState, useEffect } from 'react';
 import MyContext from '../context/Context';
 import dataAPI from '../services/dataAPI';
+import filter from './filter';
 
 function Component() {
   const { planets, filterByName,
     filterByNumber,
     select,
+    order,
     changePlanets,
     changeFilterByName,
     changeFilterByNumber,
     changeDelete,
+    changeOrder,
     changeSelect } = useContext(MyContext);
-  console.log(filterByNumber);
 
   const [inputColumn, setinputColumn] = useState('population');
-
   const [inputCompasion, setinputCompasion] = useState('maior que');
-
   const [inputValues, setInputValues] = useState('0');
-
+  const [inputColumn1, setInputColumn1] = useState('population');
+  const [inputRadio, setInputRadio] = useState('');
   const request = async () => {
     const resultAPI = await dataAPI();
     const arrayAPI = await resultAPI.filter((element) => delete element.residents);
+    arrayAPI.sort((a, b) => {
+      const negative = -1;
+      if ((a.name) < (b.name)) return negative;
+      return 0;
+    });
     changePlanets(arrayAPI);
   };
 
@@ -29,8 +35,9 @@ function Component() {
     request();
   }, []);
 
-  let filterAPI = planets.filter((planeta) => planeta.name.includes(filterByName));
+  filter(planets, order);
 
+  let filterAPI = planets.filter((planeta) => planeta.name.includes(filterByName));
   if (filterByNumber.length > 0) {
     filterByNumber.forEach((element) => {
       switch (element.inputCompasion) {
@@ -51,13 +58,11 @@ function Component() {
       }
     });
   }
-
   const handleClick = () => {
     changeFilterByNumber({ inputColumn, inputCompasion, inputValues });
     const array = select.filter((element) => element !== inputColumn);
     changeSelect(array);
   };
-
   const removeButtonFilter = (ele) => {
     if (ele.target.id) {
       const newArray = filterByNumber.filter((e) => e.inputColumn !== ele.target.id);
@@ -103,9 +108,9 @@ function Component() {
           <select
             name="method"
             id="method-input"
+            value={ inputColumn }
             data-testid="column-filter"
             onChange={ ({ target }) => setinputColumn(target.value) }
-            value={ inputColumn }
           >
             {select.map((element) => (
               <option value={ element } key={ element }>{element}</option>
@@ -153,6 +158,54 @@ function Component() {
         >
           Remover Filtros
         </button>
+        <label htmlFor="order-input">
+          Order By
+          <select
+            name="order"
+            id="order-input"
+            data-testid="column-sort"
+            onChange={ ({ target }) => setInputColumn1(target.value) }
+          >
+            {select.map((element) => (
+              <option
+                value={ element }
+                key={ element }
+              >
+                {element}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="radio">
+          <input
+            type="radio"
+            id="radio"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            onClick={ ({ target }) => setInputRadio(target.value) }
+          />
+          ASC
+        </label>
+        <label htmlFor="radio">
+          <input
+            type="radio"
+            id="radio"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+            onClick={ ({ target }) => setInputRadio(target.value) }
+          />
+          DESC
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => changeOrder({
+            column: inputColumn1,
+            sort: inputRadio,
+          }) }
+        >
+          Order
+        </button>
         {(filterByNumber.map((element) => (
           <div key={ element.inputColumn } data-testid="filter">
             {`${element.inputColumn} ${element.inputCompasion} ${element.inputValues}`}
@@ -168,7 +221,7 @@ function Component() {
         <tbody>
           {planets.length > 0 && filterAPI.map((el) => (
             <tr key={ el.name }>
-              <td>{el.name}</td>
+              <td data-testid="planet-name">{el.name}</td>
               <td>{el.climate}</td>
               <td>{el.created}</td>
               <td>{el.diameter}</td>

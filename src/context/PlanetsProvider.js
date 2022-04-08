@@ -4,11 +4,18 @@ import MyContext from './Context';
 
 function PlanetProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+
   const [filterByName, setFilterByName] = useState('');
+
   const [select, setSelect] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+
   const [filterByNumber, setFilterByNumber] = useState([]);
-  console.log(filterByNumber);
+
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
   const changePlanets = (array) => {
     setPlanets(array);
@@ -25,16 +32,22 @@ function PlanetProvider({ children }) {
   const changeDelete = (array) => {
     setFilterByNumber(array);
   };
+  const changeOrder = (obj) => {
+    setOrder(obj);
+  };
 
   const state = {
     planets,
-    setPlanets,
     select,
     filterByName,
-    setFilterByName,
     filterByNumber,
+    order,
+    setOrder,
+    setPlanets,
+    setFilterByName,
     setFilterByNumber,
     changeDelete,
+    changeOrder,
     changePlanets,
     changeFilterByName,
     changeFilterByNumber,
